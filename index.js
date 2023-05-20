@@ -3,7 +3,7 @@ class Grid {
     this.K = K;
     this.H = H;
     this.container = document.getElementById("container");
-    this.tile = document.getElementsByClassName("tile");
+    this.tile;
 
     // Compute square root of N
     const sqr = Math.sqrt(K);
@@ -29,7 +29,7 @@ class Grid {
     for (let i = 0; i < this.K; i++) {
       for (let j = 0; j < this.K; j++) {
         const tile = document.createElement("div");
-        tile.className = "tile " + i + j;
+        tile.className = "tile n" + i + j;
         this.container.appendChild(tile);
         tile.textContent = this.numArr[i][j];
       }
@@ -151,21 +151,25 @@ class Grid {
     //Create the grid
     this.doGrid();
 
-    // Remove Randomly K digits to make game
-    //this.doRemoveHValues();
-    this.doPrintSudoku();
+    // Remove Randomly K digits to build the puzzle
+
+    this.doRemoveHDigits();
   }
 
   // Remove values to create the puzzle
-  doRemoveHValues() {
-    this.doPrintSudoku();
-  }
-
-  // Print sudoku
-  doPrintSudoku() {
-    for (let i = 0; i < this.K; i++) {
-      for (let j = 0; j < this.K; j++) {}
+  doRemoveHDigits() {
+    let count = this.H;
+    while (count !== 0) {
+      // extract coordinates i and j
+      let i = Math.floor(Math.random() * this.K);
+      let j = Math.floor(Math.random() * this.K);
+      var tiles = document.querySelector(`.n${i}${j}`);
+      if (tiles.textContent !== "") {
+        count--;
+        tiles.textContent = "";
+      }
     }
+    return;
   }
 }
 
