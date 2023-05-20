@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+#container {
+  display: grid;
+  background-color: gray;
+  border: 1px solid black;
+  grid-template-columns: repeat(9, 0fr);
+  grid-gap: 0px;
+  place-items: center;
+  place-content: center;
+}
+
+.tile {
+  background-color: yellow;
+  border: 1px solid #000;
+  width: 5vw;
+  aspect-ratio: 1/1;
+  place-self: center;
+  font-size: 3vw;
+  font-weight: bold;
+  text-align: center;
+}
