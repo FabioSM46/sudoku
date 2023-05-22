@@ -3,8 +3,12 @@ class Grid {
     this.K = K;
     this.H = H;
     this.container = document.getElementById("container");
-    this.tile;
-
+    this.tileSelected;
+    this.tileSelectedCoordX;
+    this.tileSelectedCoordY;
+    this.errorCounter;
+    this.errors = 0;
+    this.allTiles;
     // Compute square root of N
     const sqr = Math.sqrt(K);
     this.sqrK = Math.floor(sqr);
@@ -23,6 +27,88 @@ class Grid {
           () => 0
         )
     );
+    this.doEventListener();
+  }
+  doEventListener() {
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Digit1") {
+        this.doEvent("1");
+      } else if (event.code === "Digit2") {
+        this.doEvent("2");
+      } else if (event.code === "Digit3") {
+        this.doEvent("3");
+      } else if (event.code === "Digit4") {
+        this.doEvent("4");
+      } else if (event.code === "Digit5") {
+        this.doEvent("5");
+      } else if (event.code === "Digit6") {
+        this.doEvent("6");
+      } else if (event.code === "Digit7") {
+        this.doEvent("7");
+      } else if (event.code === "Digit8") {
+        this.doEvent("8");
+      } else if (event.code === "Digit9") {
+        this.doEvent("9");
+      } else if (event.code === "ArrowUp") {
+        //insert code here
+      } else if (event.code === "ArrowDown") {
+        //insert code here
+      } else if (event.code === "ArrowLeft") {
+        //insert code here
+      } else if (event.code === "ArrowRight") {
+        //insert code here
+      }
+    });
+    document.addEventListener("click", (event) => {
+      this.allTiles = document.getElementsByClassName("tile");
+      for (let i = 0; i < this.allTiles.length; i++) {
+        if (event.target.className.includes("tile")) {
+          if (this.allTiles[i].style.backgroundColor === "aquamarine") {
+            this.allTiles[i].style.backgroundColor = "whitesmoke";
+          }
+        }
+      }
+      if (event.target.className.includes("tile")) {
+        this.tileSelected = event.target;
+        this.tileSelectedCoordX = this.tileSelected.className
+          .replace(/\D/g, "")
+          .slice(0, 1);
+        this.tileSelectedCoordY = this.tileSelected.className
+          .replace(/\D/g, "")
+          .slice(1);
+        this.tileSelected.style.backgroundColor = "aquamarine";
+      }
+    });
+  }
+  doEvent(n) {
+    if (this.tileSelected.className.includes("tile")) {
+      if (this.tileSelected.textContent === "") {
+        if (
+          this.numArr[this.tileSelectedCoordX][this.tileSelectedCoordY] == n
+        ) {
+          this.tileSelected.textContent = n;
+        } else {
+          this.errors++;
+          this.errorCounter = document.getElementById("score");
+          this.errorCounter.textContent = this.errors;
+          //error tile animation
+          this.tileSelected.classList.add("animating");
+          //This function runs when the CSS animation is completed
+          var animationListener = this.tileSelected.addEventListener(
+            "animationend",
+            () => {
+              this.tileSelected.classList.remove("animating");
+              //this removes the listener after it runs so that it doesn't get re-added every time the button is clicked
+              this.tileSelected.removeEventListener(
+                "animationend",
+                animationListener
+              );
+            }
+          );
+        }
+      }
+    }
+    this.doGameOver();
   }
 
   doGrid() {
@@ -171,9 +257,18 @@ class Grid {
     }
     return;
   }
+  doGameOver() {
+    for (let i = 0; i < this.allTiles.length; i++) {
+      if (this.allTiles[i].textContent === "") {
+        break;
+      } else {
+        //console.log("game over");
+      }
+    }
+  }
 }
 
 let K = 9;
-let H = 40;
+let H = 1;
 let grid = new Grid(K, H);
 grid.doFillValues();
