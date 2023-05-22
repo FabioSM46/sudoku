@@ -9,6 +9,7 @@ class Grid {
     this.errorCounter;
     this.errors = 0;
     this.allTiles;
+    this.controller;
     // Compute square root of N
     const sqr = Math.sqrt(K);
     this.sqrK = Math.floor(sqr);
@@ -28,37 +29,58 @@ class Grid {
         )
     );
     this.doEventListener();
+    this.doTimer();
   }
   doEventListener() {
-    document.addEventListener("keydown", (event) => {
-      if (event.code === "Digit1") {
-        this.doEvent("1");
-      } else if (event.code === "Digit2") {
-        this.doEvent("2");
-      } else if (event.code === "Digit3") {
-        this.doEvent("3");
-      } else if (event.code === "Digit4") {
-        this.doEvent("4");
-      } else if (event.code === "Digit5") {
-        this.doEvent("5");
-      } else if (event.code === "Digit6") {
-        this.doEvent("6");
-      } else if (event.code === "Digit7") {
-        this.doEvent("7");
-      } else if (event.code === "Digit8") {
-        this.doEvent("8");
-      } else if (event.code === "Digit9") {
-        this.doEvent("9");
-      } else if (event.code === "ArrowUp") {
-        //insert code here
-      } else if (event.code === "ArrowDown") {
-        //insert code here
-      } else if (event.code === "ArrowLeft") {
-        //insert code here
-      } else if (event.code === "ArrowRight") {
-        //insert code here
-      }
-    });
+    this.controller = new AbortController();
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        switch (event.code) {
+          case "Digit1":
+            grid.doEvent("1");
+            break;
+          case "Digit2":
+            grid.doEvent("2");
+            break;
+          case "Digit3":
+            grid.doEvent("3");
+            break;
+          case "Digit4":
+            grid.doEvent("4");
+            break;
+          case "Digit5":
+            grid.doEvent("5");
+            break;
+          case "Digit6":
+            grid.doEvent("6");
+            break;
+          case "Digit7":
+            grid.doEvent("7");
+            break;
+          case "Digit8":
+            grid.doEvent("8");
+            break;
+          case "Digit9":
+            grid.doEvent("9");
+            break;
+          case "ArrowUp":
+            // insert code here
+            break;
+          case "ArrowDown":
+            // insert code here
+            break;
+          case "ArrowLeft":
+            // insert code here
+            break;
+          case "ArrowRight":
+            // insert code here
+            break;
+        }
+      },
+      { signal: this.controller.signal }
+    );
+
     document.addEventListener("click", (event) => {
       this.allTiles = document.getElementsByClassName("tile");
       for (let i = 0; i < this.allTiles.length; i++) {
@@ -89,7 +111,7 @@ class Grid {
           this.tileSelected.textContent = n;
         } else {
           this.errors++;
-          this.errorCounter = document.getElementById("score");
+          this.errorCounter = document.getElementById("err");
           this.errorCounter.textContent = this.errors;
           //error tile animation
           this.tileSelected.classList.add("animating");
@@ -257,18 +279,63 @@ class Grid {
     }
     return;
   }
-  doGameOver() {
-    for (let i = 0; i < this.allTiles.length; i++) {
-      if (this.allTiles[i].textContent === "") {
-        break;
-      } else {
-        //console.log("game over");
+  doTimer() {
+    const timer = document.getElementById("timer");
+    let sec = 0;
+    let min = 0;
+    this.intervalID = setInterval(function () {
+      sec++;
+      if (sec == 60) {
+        sec = 0;
+        min++;
       }
+      let formatSec = sec.toString().padStart(2, "0");
+      let formatMin = min.toString().padStart(2, "0");
+      timer.textContent = formatMin + ":" + formatSec;
+    }, 1000);
+  }
+  doGameOver() {
+    //refactor line 269
+    if (
+      Array.from(this.allTiles).every((element) => element.textContent !== "")
+    ) {
+      this.doDisplayGameOver();
+    } else {
+      return;
     }
+  }
+
+  doDisplayGameOver() {
+    const gameover = document.createElement("div");
+    gameover.setAttribute("id", "gameover-display");
+    document.body.appendChild(gameover);
+    const gameoverTitle = document.createElement("h2");
+    gameoverTitle.setAttribute("id", "gameover-title");
+    gameover.appendChild(gameoverTitle);
+    gameoverTitle.textContent = "Game Over";
+    const replayButton = document.createElement("button");
+    replayButton.setAttribute("id", "replay-button");
+    gameover.appendChild(replayButton);
+    replayButton.textContent = "Replay";
+    replayButton.addEventListener("click", (event) => {
+      this.doReplayGame();
+    });
+
+    clearInterval(this.intervalID);
+    //abort event listener so wont keep creating gameover messages
+    this.controller.abort();
+  }
+
+  doReplayGame() {
+    // Reset the game state
+    location.reload(); //refactor, avoid using location.reload() to reset the game
+    // Hide the gameover display
+    const gameoverDisplay = document.getElementById("gameover-display");
+    gameoverDisplay.style.display = "none";
   }
 }
 
 let K = 9;
-let H = 1;
+let H = 40; //hardness
 let grid = new Grid(K, H);
 grid.doFillValues();
