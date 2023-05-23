@@ -1,7 +1,7 @@
 class Grid {
-  constructor(K, H) {
-    this.K = K;
-    this.H = H;
+  constructor(aspectRatio, difficultyLevel) {
+    this.aspectRatio = aspectRatio;
+    this.difficultyLevel = difficultyLevel;
     this.container = document.getElementById("container");
     this.tileSelected;
     this.tileSelectedCoordX;
@@ -10,20 +10,22 @@ class Grid {
     this.errors = 0;
     this.allTiles;
     this.controller;
+    this.timer;
+    this.gameBoardSolution;
     // Compute square root of N
-    const sqr = Math.sqrt(K);
+    const sqr = Math.sqrt(aspectRatio);
     this.sqrK = Math.floor(sqr);
 
     // Initialize all entries as false to indicate
     // that there are no edges initially
     this.numArr = Array.from(
       {
-        length: K,
+        length: aspectRatio,
       },
       () =>
         Array.from(
           {
-            length: K,
+            length: aspectRatio,
           },
           () => 0
         )
@@ -31,7 +33,9 @@ class Grid {
     this.doEventListener();
     this.doTimer();
   }
+
   doEventListener() {
+    //keydown event listener
     this.controller = new AbortController();
     document.addEventListener(
       "keydown",
@@ -80,29 +84,79 @@ class Grid {
       },
       { signal: this.controller.signal }
     );
-
-    document.addEventListener("click", (event) => {
-      this.allTiles = document.getElementsByClassName("tile");
-      for (let i = 0; i < this.allTiles.length; i++) {
-        if (event.target.className.includes("tile")) {
-          if (this.allTiles[i].style.backgroundColor === "aquamarine") {
-            this.allTiles[i].style.backgroundColor = "whitesmoke";
+    //click event listener
+    document.addEventListener(
+      "click",
+      (event) => {
+        this.allTiles = document.getElementsByClassName("tile");
+        this.allTiles = Array.from(this.allTiles);
+        for (let i = 0; i < this.allTiles.length; i++) {
+          if (event.target.className.includes("tile")) {
+            if (this.allTiles[i].style.backgroundColor === "aquamarine") {
+              this.allTiles[i].style.backgroundColor = "whitesmoke";
+            }
           }
         }
-      }
-      if (event.target.className.includes("tile")) {
-        this.tileSelected = event.target;
-        this.tileSelectedCoordX = this.tileSelected.className
-          .replace(/\D/g, "")
-          .slice(0, 1);
-        this.tileSelectedCoordY = this.tileSelected.className
-          .replace(/\D/g, "")
-          .slice(1);
-        this.tileSelected.style.backgroundColor = "aquamarine";
-      }
+        if (event.target.className.includes("tile")) {
+          this.tileSelected = event.target;
+          this.tileSelectedCoordX = this.tileSelected.className
+            .replace(/\D/g, "")
+            .slice(0, 1);
+          this.tileSelectedCoordY = this.tileSelected.className
+            .replace(/\D/g, "")
+            .slice(1);
+          this.tileSelected.style.backgroundColor = "aquamarine";
+        }
+
+        //when show button is clicked starts a timeout that show for a brief time every number if the tile is empty
+        //click event on the button
+        if (event.target.id == "show-button") {
+          //goes through all the tiles and check if blank
+          for (let i = 0; i < this.allTiles.length; i++) {
+            //if tile is blank call the function to write the number
+            if (this.allTiles[i].textContent === "") {
+              //start a timer to slow down the for loop
+              setTimeout(() => {
+                this.tileSelectedCoordX = this.allTiles[i].className
+                  .replace(/\D/g, "")
+                  .slice(0, 1);
+                this.tileSelectedCoordY = this.allTiles[i].className
+                  .replace(/\D/g, "")
+                  .slice(1);
+                //add the animation
+                this.allTiles[i].classList.add("animating-text");
+                this.doShowSolution(
+                  this.allTiles[i],
+                  this.tileSelectedCoordX,
+                  this.tileSelectedCoordY
+                );
+              }, i * 100);
+            }
+          }
+        }
+      },
+      { signal: this.controller.signal }
+    );
+  }
+  doShowSolution(tile, x, y) {
+    const tileToReverse = [];
+    tileToReverse.push(tile);
+    tile.textContent = this.numArr[x][y];
+    tile.classList.add("animating-text-reverse");
+    //set tiles to blank back again in progression
+    setTimeout(() => {
+      tile.textContent = "";
+    }, 5000);
+    //remove the animations
+    var animationListener = tile.addEventListener("animationend", () => {
+      tile.classList.remove("animating-text");
+      tile.classList.remove("animating-text-reverse");
+      //this removes the listener after it runs so that it doesn't get re-added every time the button is clicked
+      tile.removeEventListener("animationend", animationListener);
     });
   }
   doEvent(n) {
+    //what to do when a key is pressed
     if (this.tileSelected.className.includes("tile")) {
       if (this.tileSelected.textContent === "") {
         if (
@@ -114,12 +168,12 @@ class Grid {
           this.errorCounter = document.getElementById("err");
           this.errorCounter.textContent = this.errors;
           //error tile animation
-          this.tileSelected.classList.add("animating");
+          this.tileSelected.classList.add("animating-background");
           //This function runs when the CSS animation is completed
           var animationListener = this.tileSelected.addEventListener(
             "animationend",
             () => {
-              this.tileSelected.classList.remove("animating");
+              this.tileSelected.classList.remove("animating-background");
               //this removes the listener after it runs so that it doesn't get re-added every time the button is clicked
               this.tileSelected.removeEventListener(
                 "animationend",
@@ -130,12 +184,13 @@ class Grid {
         }
       }
     }
-    this.doGameOver();
+    this.doGameOver(); //check if the game is over
   }
 
   doGrid() {
-    for (let i = 0; i < this.K; i++) {
-      for (let j = 0; j < this.K; j++) {
+    //generate the grid
+    for (let i = 0; i < this.aspectRatio; i++) {
+      for (let j = 0; j < this.aspectRatio; j++) {
         const tile = document.createElement("div");
         tile.className = "tile n" + i + j;
         this.container.appendChild(tile);
@@ -163,7 +218,7 @@ class Grid {
 
   // check in the row for existence
   unUsedInRow(i, num) {
-    for (let j = 0; j < this.K; j++) {
+    for (let j = 0; j < this.aspectRatio; j++) {
       if (this.numArr[i][j] === num) {
         return false;
       }
@@ -171,9 +226,9 @@ class Grid {
     return true;
   }
 
-  // check in the row for existence
+  // check in the column for existence
   unUsedInCol(j, num) {
-    for (let i = 0; i < this.K; i++) {
+    for (let i = 0; i < this.aspectRatio; i++) {
       if (this.numArr[i][j] === num) {
         return false;
       }
@@ -192,7 +247,7 @@ class Grid {
 
   // Fill the diagonal sqrK number of sqrK x sqrK matrices
   doFillDiagonal() {
-    for (let i = 0; i < this.K; i += this.sqrK) {
+    for (let i = 0; i < this.aspectRatio; i += this.sqrK) {
       // for diagonal box, start coordinates->i==j
       this.doFillBox(i, i);
     }
@@ -204,7 +259,7 @@ class Grid {
     for (let i = 0; i < this.sqrK; i++) {
       for (let j = 0; j < this.sqrK; j++) {
         while (true) {
-          num = this.rndGen(this.K);
+          num = this.rndGen(this.aspectRatio);
           if (this.unUsedInBox(row, col, num)) {
             break;
           }
@@ -215,15 +270,14 @@ class Grid {
   }
 
   // A recursive function to fill remaining
-  // matrix
   doFillRemaining(i, j) {
     // Check if we have reached the end of the matrix
-    if (i === this.K - 1 && j === this.K) {
+    if (i === this.aspectRatio - 1 && j === this.aspectRatio) {
       return true;
     }
 
     // Move to the next row if we have reached the end of the current row
-    if (j === this.K) {
+    if (j === this.aspectRatio) {
       i += 1;
       j = 0;
     }
@@ -234,7 +288,7 @@ class Grid {
     }
 
     // Try filling the current cell with a valid value
-    for (let num = 1; num <= this.K; num++) {
+    for (let num = 1; num <= this.aspectRatio; num++) {
       if (this.checkIfSafe(i, j, num)) {
         this.numArr[i][j] = num;
         if (this.doFillRemaining(i, j + 1)) {
@@ -259,18 +313,17 @@ class Grid {
     //Create the grid
     this.doGrid();
 
-    // Remove Randomly K digits to build the puzzle
-
+    // Remove Randomly n(difficultyLevel) digits to build the puzzle
     this.doRemoveHDigits();
   }
 
   // Remove values to create the puzzle
   doRemoveHDigits() {
-    let count = this.H;
+    let count = this.difficultyLevel;
     while (count !== 0) {
       // extract coordinates i and j
-      let i = Math.floor(Math.random() * this.K);
-      let j = Math.floor(Math.random() * this.K);
+      let i = Math.floor(Math.random() * this.aspectRatio);
+      let j = Math.floor(Math.random() * this.aspectRatio);
       var tiles = document.querySelector(`.n${i}${j}`);
       if (tiles.textContent !== "") {
         count--;
@@ -280,7 +333,8 @@ class Grid {
     return;
   }
   doTimer() {
-    const timer = document.getElementById("timer");
+    //Timer progression
+    this.timer = document.getElementById("timer");
     let sec = 0;
     let min = 0;
     this.intervalID = setInterval(function () {
@@ -291,14 +345,12 @@ class Grid {
       }
       let formatSec = sec.toString().padStart(2, "0");
       let formatMin = min.toString().padStart(2, "0");
-      timer.textContent = formatMin + ":" + formatSec;
+      this.timer.textContent = formatMin + ":" + formatSec;
     }, 1000);
   }
   doGameOver() {
-    //refactor line 269
-    if (
-      Array.from(this.allTiles).every((element) => element.textContent !== "")
-    ) {
+    //if all tiles are filled then game is over
+    if (this.allTiles.every((element) => element.textContent !== "")) {
       this.doDisplayGameOver();
     } else {
       return;
@@ -306,13 +358,31 @@ class Grid {
   }
 
   doDisplayGameOver() {
+    //gameover div
     const gameover = document.createElement("div");
     gameover.setAttribute("id", "gameover-display");
     document.body.appendChild(gameover);
+    //gameover h2 title
     const gameoverTitle = document.createElement("h2");
     gameoverTitle.setAttribute("id", "gameover-title");
     gameover.appendChild(gameoverTitle);
     gameoverTitle.textContent = "Game Over";
+    //errors made
+    const errorsMade = document.createElement("h3");
+    errorsMade.setAttribute("id", "errors-made");
+    gameover.appendChild(errorsMade);
+    errorsMade.textContent = `Errors: ${this.errorCounter.textContent}`;
+    //finish time
+    const finishTime = document.createElement("h3");
+    finishTime.setAttribute("id", "finish-time");
+    gameover.appendChild(finishTime);
+    finishTime.textContent = `Time: ${this.timer.textContent}`;
+    //game solution
+    this.gameBoardSolution = document.querySelector("#container");
+    const boardClone = this.gameBoardSolution.cloneNode(true);
+    boardClone.setAttribute("id", "board-clone");
+    gameover.appendChild(boardClone);
+    //replay button
     const replayButton = document.createElement("button");
     replayButton.setAttribute("id", "replay-button");
     gameover.appendChild(replayButton);
@@ -320,7 +390,7 @@ class Grid {
     replayButton.addEventListener("click", (event) => {
       this.doReplayGame();
     });
-
+    //clear the interval intervalID
     clearInterval(this.intervalID);
     //abort event listener so wont keep creating gameover messages
     this.controller.abort();
@@ -335,7 +405,7 @@ class Grid {
   }
 }
 
-let K = 9;
-let H = 40; //hardness
-let grid = new Grid(K, H);
+let aspectRatio = 9; //grid dimensions (default 9x9)
+let difficultyLevel = 40; //hidden numbers
+let grid = new Grid(aspectRatio, difficultyLevel); //new object grid
 grid.doFillValues();
