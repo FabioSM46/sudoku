@@ -6,7 +6,7 @@ class Grid {
     this.tileSelected;
     this.tileSelectedCoordX;
     this.tileSelectedCoordY;
-    this.errorCounter;
+    this.errorCounter = 0;
     this.errors = 0;
     this.allTiles;
     this.controller;
@@ -92,8 +92,11 @@ class Grid {
         this.allTiles = Array.from(this.allTiles);
         for (let i = 0; i < this.allTiles.length; i++) {
           if (event.target.className.includes("tile")) {
-            if (this.allTiles[i].style.backgroundColor === "aquamarine") {
-              this.allTiles[i].style.backgroundColor = "whitesmoke";
+            if (
+              getComputedStyle(this.allTiles[i]).backgroundColor ===
+              "rgb(20, 104, 129)"
+            ) {
+              this.allTiles[i].style.backgroundColor = "#f8efc5";
             }
           }
         }
@@ -105,56 +108,56 @@ class Grid {
           this.tileSelectedCoordY = this.tileSelected.className
             .replace(/\D/g, "")
             .slice(1);
-          this.tileSelected.style.backgroundColor = "aquamarine";
+          this.tileSelected.style.backgroundColor = "rgb(20, 104, 129)";
         }
 
-        //when show button is clicked starts a timeout that show for a brief time every number if the tile is empty
-        //click event on the button
+        //show solution for a brief time
         if (event.target.id == "show-button") {
-          //goes through all the tiles and check if blank
           for (let i = 0; i < this.allTiles.length; i++) {
             //if tile is blank call the function to write the number
-            if (this.allTiles[i].textContent === "") {
-              //start a timer to slow down the for loop
-              setTimeout(() => {
-                this.tileSelectedCoordX = this.allTiles[i].className
-                  .replace(/\D/g, "")
-                  .slice(0, 1);
-                this.tileSelectedCoordY = this.allTiles[i].className
-                  .replace(/\D/g, "")
-                  .slice(1);
-                //add the animation
-                this.allTiles[i].classList.add("animating-text");
-                this.doShowSolution(
-                  this.allTiles[i],
-                  this.tileSelectedCoordX,
-                  this.tileSelectedCoordY
-                );
-              }, i * 100);
+            if (this.allTiles[i].textContent === "") {             
+              this.tileSelectedCoordX = this.allTiles[i].className
+                .replace(/\D/g, "")
+                .slice(0, 1);
+              this.tileSelectedCoordY = this.allTiles[i].className
+                .replace(/\D/g, "")
+                .slice(1);
+              //add the fade in/out animation
+              this.allTiles[i].classList.add("animating-text");
+              this.doShowSolution(
+                this.allTiles[i],
+                this.tileSelectedCoordX,
+                this.tileSelectedCoordY
+              );
             }
           }
+        }
+        //restart
+        if (event.target.id == "restart-button") {
+          location.reload();
         }
       },
       { signal: this.controller.signal }
     );
   }
+
   doShowSolution(tile, x, y) {
     const tileToReverse = [];
     tileToReverse.push(tile);
     tile.textContent = this.numArr[x][y];
-    tile.classList.add("animating-text-reverse");
+    tile.classList.add("animating-text");
     //set tiles to blank back again in progression
     setTimeout(() => {
       tile.textContent = "";
-    }, 5000);
+    }, 3000);
     //remove the animations
     var animationListener = tile.addEventListener("animationend", () => {
       tile.classList.remove("animating-text");
-      tile.classList.remove("animating-text-reverse");
       //this removes the listener after it runs so that it doesn't get re-added every time the button is clicked
       tile.removeEventListener("animationend", animationListener);
     });
   }
+
   doEvent(n) {
     //what to do when a key is pressed
     if (this.tileSelected.className.includes("tile")) {
@@ -398,14 +401,78 @@ class Grid {
 
   doReplayGame() {
     // Reset the game state
-    location.reload(); //refactor, avoid using location.reload() to reset the game
+    location.reload();
     // Hide the gameover display
     const gameoverDisplay = document.getElementById("gameover-display");
     gameoverDisplay.style.display = "none";
   }
 }
 
+window.onload = () => {
+  //start menu div
+  const start = document.createElement("div");
+  start.setAttribute("id", "start-display");
+  document.body.appendChild(start);
+  //start h2 title
+  const startTitle = document.createElement("h2");
+  startTitle.setAttribute("id", "start-title");
+  start.appendChild(startTitle);
+  startTitle.textContent = "Start Sudoku";
+  //set 4 different levels of difficulty
+  const infoText = document.createElement("h3");
+  infoText.setAttribute("id", "info-text");
+  start.appendChild(infoText);
+  infoText.textContent = "Select difficulty";
+
+  //easy difficulty button
+  const easyButton = document.createElement("button");
+  easyButton.setAttribute("id", "easy-button");
+  start.appendChild(easyButton);
+  easyButton.textContent = "EASY";
+  easyButton.addEventListener("click", () => {
+    const start = document.getElementById("start-display");
+    start.style.display = "none";
+    difficultyLevel = 40;
+    let grid = new Grid(aspectRatio, difficultyLevel);
+    grid.doFillValues();
+  });
+  //medium difficulty button
+  const mediumButton = document.createElement("button");
+  mediumButton.setAttribute("id", "medium-button");
+  start.appendChild(mediumButton);
+  mediumButton.textContent = "MEDIUM";
+  mediumButton.addEventListener("click", () => {
+    const start = document.getElementById("start-display");
+    start.style.display = "none";
+    difficultyLevel = 48;
+    let grid = new Grid(aspectRatio, difficultyLevel);
+    grid.doFillValues();
+  });
+  //hard difficulty button
+  const hardButton = document.createElement("button");
+  hardButton.setAttribute("id", "hard-button");
+  start.appendChild(hardButton);
+  hardButton.textContent = "HARD";
+  hardButton.addEventListener("click", () => {
+    const start = document.getElementById("start-display");
+    start.style.display = "none";
+    difficultyLevel = 53;
+    let grid = new Grid(aspectRatio, difficultyLevel);
+    grid.doFillValues();
+  });
+  //insane difficulty button
+  const insaneButton = document.createElement("button");
+  insaneButton.setAttribute("id", "insane-button");
+  start.appendChild(insaneButton);
+  insaneButton.textContent = "INSANE";
+  insaneButton.addEventListener("click", () => {
+    const start = document.getElementById("start-display");
+    start.style.display = "none";
+    difficultyLevel = 59;
+    let grid = new Grid(aspectRatio, difficultyLevel);
+    grid.doFillValues();
+  });
+};
+
 let aspectRatio = 9; //grid dimensions (default 9x9)
-let difficultyLevel = 40; //hidden numbers
-let grid = new Grid(aspectRatio, difficultyLevel); //new object grid
-grid.doFillValues();
+let difficultyLevel = 0; //how many tiles to hide
