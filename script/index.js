@@ -4,6 +4,7 @@ class Grid {
     this.difficultyLevel = difficultyLevel;
     this.container = document.getElementById("container");
     this.tileSelected;
+    this.previousTile = null;
     this.tileSelectedCoordX;
     this.tileSelectedCoordY;
     this.errorCounter = 0;
@@ -88,34 +89,31 @@ class Grid {
     document.addEventListener(
       "click",
       (event) => {
-        this.allTiles = document.getElementsByClassName("tile");
-        this.allTiles = Array.from(this.allTiles);
-        for (let i = 0; i < this.allTiles.length; i++) {
-          if (event.target.className.includes("tile")) {
-            if (
-              getComputedStyle(this.allTiles[i]).backgroundColor ===
-              "rgb(20, 104, 129)"
-            ) {
-              this.allTiles[i].style.backgroundColor = "#f8efc5";
+        if (event.target.className.includes("tile")) {
+          this.tileSelected = event.target;
+          if (this.tileSelected !== this.previousTile) {
+            this.tileSelected.style.backgroundColor = "rgb(20, 104, 129)";
+            if (this.previousTile === null) {
+              this.previousTile = this.tileSelected;
+            } else {
+              this.previousTile.style.backgroundColor = "rgb(248, 239, 197)";
+              this.previousTile = this.tileSelected;
             }
           }
         }
         if (event.target.className.includes("tile")) {
-          this.tileSelected = event.target;
-          this.tileSelectedCoordX = this.tileSelected.className
+          this.tileSelectedCoordX = event.target.className
             .replace(/\D/g, "")
             .slice(0, 1);
-          this.tileSelectedCoordY = this.tileSelected.className
+          this.tileSelectedCoordY = event.target.className
             .replace(/\D/g, "")
             .slice(1);
-          this.tileSelected.style.backgroundColor = "rgb(20, 104, 129)";
         }
-
         //show solution for a brief time
         if (event.target.id == "show-button") {
           for (let i = 0; i < this.allTiles.length; i++) {
             //if tile is blank call the function to write the number
-            if (this.allTiles[i].textContent === "") {             
+            if (this.allTiles[i].textContent === "") {
               this.tileSelectedCoordX = this.allTiles[i].className
                 .replace(/\D/g, "")
                 .slice(0, 1);
@@ -435,6 +433,8 @@ window.onload = () => {
     difficultyLevel = 40;
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
+    grid.allTiles = document.getElementsByClassName("tile");
+    grid.allTiles = Array.from(grid.allTiles);
   });
   //medium difficulty button
   const mediumButton = document.createElement("button");
@@ -447,6 +447,8 @@ window.onload = () => {
     difficultyLevel = 48;
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
+    grid.allTiles = document.getElementsByClassName("tile");
+    grid.allTiles = Array.from(grid.allTiles);
   });
   //hard difficulty button
   const hardButton = document.createElement("button");
@@ -459,6 +461,8 @@ window.onload = () => {
     difficultyLevel = 53;
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
+    grid.allTiles = document.getElementsByClassName("tile");
+    grid.allTiles = Array.from(grid.allTiles);
   });
   //insane difficulty button
   const insaneButton = document.createElement("button");
@@ -471,6 +475,8 @@ window.onload = () => {
     difficultyLevel = 59;
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
+    grid.allTiles = document.getElementsByClassName("tile");
+    grid.allTiles = Array.from(grid.allTiles);
   });
 };
 
