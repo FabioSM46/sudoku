@@ -406,6 +406,6 @@ class Grid {
 }
 
 let aspectRatio = 9; //grid dimensions (default 9x9)
-let difficultyLevel = 1; //hidden numbers
+let difficultyLevel = 40; //hidden numbers
 let grid = new Grid(aspectRatio, difficultyLevel); //new object grid
 grid.doFillValues();
