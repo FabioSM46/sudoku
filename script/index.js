@@ -42,31 +42,31 @@ class Grid {
       (event) => {
         switch (event.code) {
           case "Digit1":
-            grid.doEvent("1");
+            this.doEvent("1");
             break;
           case "Digit2":
-            grid.doEvent("2");
+            this.doEvent("2");
             break;
           case "Digit3":
-            grid.doEvent("3");
+            this.doEvent("3");
             break;
           case "Digit4":
-            grid.doEvent("4");
+            this.doEvent("4");
             break;
           case "Digit5":
-            grid.doEvent("5");
+            this.doEvent("5");
             break;
           case "Digit6":
-            grid.doEvent("6");
+            this.doEvent("6");
             break;
           case "Digit7":
-            grid.doEvent("7");
+            this.doEvent("7");
             break;
           case "Digit8":
-            grid.doEvent("8");
+            this.doEvent("8");
             break;
           case "Digit9":
-            grid.doEvent("9");
+            this.doEvent("9");
             break;
           case "ArrowUp":
             // insert code here
@@ -387,7 +387,7 @@ class Grid {
     replayButton.setAttribute("id", "replay-button");
     gameover.appendChild(replayButton);
     replayButton.textContent = "Replay";
-    replayButton.addEventListener("click", (event) => {
+    replayButton.addEventListener("click", () => {
       this.doReplayGame();
     });
     //clear the interval intervalID
@@ -406,6 +406,6 @@ class Grid {
 }
 
 let aspectRatio = 9; //grid dimensions (default 9x9)
-let difficultyLevel = 40; //hidden numbers
+let difficultyLevel = 1; //hidden numbers
 let grid = new Grid(aspectRatio, difficultyLevel); //new object grid
 grid.doFillValues();
