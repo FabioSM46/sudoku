@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   background-color: transparent;
@@ -8,6 +9,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: fit-content; 
+  min-height: fit-content;
 }
 h1 {
   text-align: center;
@@ -43,7 +46,7 @@ hr {
   grid-gap: 0px;
   place-items: center;
   place-content: center;
-  margin: 0;
+  margin: auto;
 }
 
 .tile {
