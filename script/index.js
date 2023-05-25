@@ -15,6 +15,7 @@ class Grid {
     this.controller;
     this.timer;
     this.gameBoardSolution;
+    this.audioPlayer;
     // Compute square root of N
     const sqr = Math.sqrt(aspectRatio);
     this.sqrK = Math.floor(sqr);
@@ -587,13 +588,26 @@ class Grid {
 window.onload = () => {
   //easy button
   const titleIcon = document.getElementById("title-icon");
+  const muteButton = document.getElementById("mute-button");
+  this.audioPlayer = document.getElementById("music-player");
+  audioPlayer.volume = 0.03;
+  muteButton.addEventListener("click", () => {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      muteButton.style.textDecoration = "line-through";
+    } else if (!audioPlayer.paused) {
+      audioPlayer.pause();
+      muteButton.style.removeProperty("text-decoration");
+    }
+  });
   const easyButton = document.getElementById("easy-button");
   easyButton.addEventListener("click", () => {
     const start = document.getElementById("start-display");
     titleIcon.src = "images/easy.png";
     titleIcon.alt = "easy-title";
+    this.audioPlayer.src = "sounds/easy.mp3";
     start.style.display = "none";
-    difficultyLevel = 40;
+    difficultyLevel = 3;
     difficultyLevelText = "It's...Easy.";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
@@ -606,6 +620,7 @@ window.onload = () => {
     const start = document.getElementById("start-display");
     titleIcon.src = "images/medium.png";
     titleIcon.alt = "medium-title";
+    this.audioPlayer.src = "sounds/medium.mp3";
     start.style.display = "none";
     difficultyLevel = 48;
     difficultyLevelText = "That was Medium.";
@@ -620,6 +635,7 @@ window.onload = () => {
     const start = document.getElementById("start-display");
     titleIcon.src = "images/hard.png";
     titleIcon.alt = "hard-title";
+    this.audioPlayer.src = "sounds/hard.mp3";
     start.style.display = "none";
     difficultyLevel = 53;
     difficultyLevelText = "This was Hard!";
@@ -634,6 +650,7 @@ window.onload = () => {
     const start = document.getElementById("start-display");
     titleIcon.src = "images/insane.png";
     titleIcon.alt = "insane-title";
+    this.audioPlayer.src = "sounds/insane.mp3";
     start.style.display = "none";
     difficultyLevel = 59;
     difficultyLevelText = "That was INSANE!!!";
