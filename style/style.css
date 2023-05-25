@@ -43,7 +43,7 @@ hr {
   grid-gap: 0px;
   place-items: center;
   place-content: center;
-  margin: auto;
+  margin: 0;
 }
 
 .tile {
@@ -460,4 +460,3 @@ hr {
   padding-top: 10px;
   width: 40px;
 }
-

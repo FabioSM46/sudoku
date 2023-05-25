@@ -608,7 +608,7 @@ window.onload = () => {
     this.audioPlayer.src = "sounds/easy.mp3";
     start.style.display = "none";
     difficultyLevel = 3;
-    difficultyLevelText = "It's...Easy.";
+    difficultyLevelText = "too...Easy.";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
     grid.allTiles = document.getElementsByClassName("tile");
@@ -623,7 +623,7 @@ window.onload = () => {
     this.audioPlayer.src = "sounds/medium.mp3";
     start.style.display = "none";
     difficultyLevel = 48;
-    difficultyLevelText = "That was Medium.";
+    difficultyLevelText = "Meh...Medium.";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
     grid.allTiles = document.getElementsByClassName("tile");
