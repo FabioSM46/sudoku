@@ -7,6 +7,7 @@ class Grid {
     this.previousTile = null;
     this.tileSelectedCoordX;
     this.tileSelectedCoordY;
+    this.numSelected = "";
     this.errorCounter = 0;
     this.errors = 0;
     this.allTiles;
@@ -68,18 +69,6 @@ class Grid {
             break;
           case "Digit9":
             this.doEvent("9");
-            break;
-          case "ArrowUp":
-            // insert code here
-            break;
-          case "ArrowDown":
-            // insert code here
-            break;
-          case "ArrowLeft":
-            // insert code here
-            break;
-          case "ArrowRight":
-            // insert code here
             break;
         }
       },
@@ -420,7 +409,7 @@ window.onload = () => {
   const infoText = document.createElement("h3");
   infoText.setAttribute("id", "info-text");
   start.appendChild(infoText);
-  infoText.textContent = "Select difficulty";
+  infoText.textContent = "Select Difficulty";
 
   //easy difficulty button
   const easyButton = document.createElement("button");
