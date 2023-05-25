@@ -3,12 +3,13 @@ class Grid {
     this.aspectRatio = aspectRatio;
     this.difficultyLevel = difficultyLevel;
     this.container = document.getElementById("container");
-    this.tileSelected;
+    this.tileSelected = null;
     this.previousTile = null;
+    this.previousNumButton = null;
     this.tileSelectedCoordX;
     this.tileSelectedCoordY;
     this.numSelected = "";
-    this.errorCounter = 0;
+    this.errorCounter;
     this.errors = 0;
     this.allTiles;
     this.controller;
@@ -119,6 +120,191 @@ class Grid {
             }
           }
         }
+
+        //num selector by click
+        switch (event.target.id) {
+          case "num-1":
+            this.numSelected = "1";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("1");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-2":
+            this.numSelected = "2";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("2");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-3":
+            this.numSelected = "3";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("3");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-4":
+            this.numSelected = "4";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("4");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-5":
+            this.numSelected = "5";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("5");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-6":
+            this.numSelected = "6";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("6");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-7":
+            this.numSelected = "7";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("7");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-8":
+            this.numSelected = "8";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("8");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+          case "num-9":
+            this.numSelected = "9";
+            if (
+              this.tileSelected !== null &&
+              this.tileSelected.textContent === ""
+            ) {
+              this.doEvent("9");
+            }
+            this.numSelected = event.target;
+            if (this.numSelected !== this.previousNumButton) {
+              this.numSelected.style.backgroundColor = "rgb(20, 104, 129)";
+              if (this.previousNumButton === null) {
+                this.previousNumButton = this.numSelected;
+              } else {
+                this.previousNumButton.style.backgroundColor =
+                  "rgb(248, 239, 197)";
+                this.previousNumButton = this.numSelected;
+              }
+            }
+            break;
+        }
+
         //restart
         if (event.target.id == "restart-button") {
           location.reload();
@@ -153,10 +339,16 @@ class Grid {
           this.numArr[this.tileSelectedCoordX][this.tileSelectedCoordY] == n
         ) {
           this.tileSelected.textContent = n;
+          //if all tiles are filled then game is over
+          if (this.allTiles.every((element) => element.textContent !== "")) {
+            this.doDisplayGameOver();
+          } else {
+            return;
+          }
         } else {
           this.errors++;
           this.errorCounter = document.getElementById("err");
-          this.errorCounter.textContent = this.errors;
+          this.errorCounter.textContent = String(this.errors);
           //error tile animation
           this.tileSelected.classList.add("animating-background");
           //This function runs when the CSS animation is completed
@@ -174,7 +366,6 @@ class Grid {
         }
       }
     }
-    this.doGameOver(); //check if the game is over
   }
 
   doGrid() {
@@ -338,14 +529,6 @@ class Grid {
       this.timer.textContent = formatMin + ":" + formatSec;
     }, 1000);
   }
-  doGameOver() {
-    //if all tiles are filled then game is over
-    if (this.allTiles.every((element) => element.textContent !== "")) {
-      this.doDisplayGameOver();
-    } else {
-      return;
-    }
-  }
 
   doDisplayGameOver() {
     //gameover div
@@ -357,11 +540,17 @@ class Grid {
     gameoverTitle.setAttribute("id", "gameover-title");
     gameover.appendChild(gameoverTitle);
     gameoverTitle.textContent = "Game Over";
-    //errors made
+    //errors
     const errorsMade = document.createElement("h3");
     errorsMade.setAttribute("id", "errors-made");
     gameover.appendChild(errorsMade);
-    errorsMade.textContent = `Errors: ${this.errorCounter.textContent}`;
+    const errText = document.getElementById("err");
+    errorsMade.textContent = `Errors: ${errText.textContent}`;
+    //difficulty level
+    const difficultyLvl = document.createElement("h3");
+    difficultyLvl.setAttribute("id", "difficulty-lvl");
+    gameover.appendChild(difficultyLvl);
+    difficultyLvl.textContent = difficultyLevelText;
     //finish time
     const finishTime = document.createElement("h3");
     finishTime.setAttribute("id", "finish-time");
@@ -396,72 +585,58 @@ class Grid {
 }
 
 window.onload = () => {
-  //start menu div
-  const start = document.createElement("div");
-  start.setAttribute("id", "start-display");
-  document.body.appendChild(start);
-  //start h2 title
-  const startTitle = document.createElement("h2");
-  startTitle.setAttribute("id", "start-title");
-  start.appendChild(startTitle);
-  startTitle.textContent = "Start Sudoku";
-  //set 4 different levels of difficulty
-  const infoText = document.createElement("h3");
-  infoText.setAttribute("id", "info-text");
-  start.appendChild(infoText);
-  infoText.textContent = "Select Difficulty";
-
-  //easy difficulty button
-  const easyButton = document.createElement("button");
-  easyButton.setAttribute("id", "easy-button");
-  start.appendChild(easyButton);
-  easyButton.textContent = "EASY";
+  //easy button
+  const titleIcon = document.getElementById("title-icon");
+  const easyButton = document.getElementById("easy-button");
   easyButton.addEventListener("click", () => {
     const start = document.getElementById("start-display");
+    titleIcon.src = "images/easy.png";
+    titleIcon.alt = "easy-title";
     start.style.display = "none";
     difficultyLevel = 40;
+    difficultyLevelText = "It's...Easy.";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
     grid.allTiles = document.getElementsByClassName("tile");
     grid.allTiles = Array.from(grid.allTiles);
   });
-  //medium difficulty button
-  const mediumButton = document.createElement("button");
-  mediumButton.setAttribute("id", "medium-button");
-  start.appendChild(mediumButton);
-  mediumButton.textContent = "MEDIUM";
+  //medium button
+  const mediumButton = document.getElementById("medium-button");
   mediumButton.addEventListener("click", () => {
     const start = document.getElementById("start-display");
+    titleIcon.src = "images/medium.png";
+    titleIcon.alt = "medium-title";
     start.style.display = "none";
     difficultyLevel = 48;
+    difficultyLevelText = "That was Medium.";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
     grid.allTiles = document.getElementsByClassName("tile");
     grid.allTiles = Array.from(grid.allTiles);
   });
-  //hard difficulty button
-  const hardButton = document.createElement("button");
-  hardButton.setAttribute("id", "hard-button");
-  start.appendChild(hardButton);
-  hardButton.textContent = "HARD";
+  //hard button
+  const hardButton = document.getElementById("hard-button");
   hardButton.addEventListener("click", () => {
     const start = document.getElementById("start-display");
+    titleIcon.src = "images/hard.png";
+    titleIcon.alt = "hard-title";
     start.style.display = "none";
     difficultyLevel = 53;
+    difficultyLevelText = "This was Hard!";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
     grid.allTiles = document.getElementsByClassName("tile");
     grid.allTiles = Array.from(grid.allTiles);
   });
-  //insane difficulty button
-  const insaneButton = document.createElement("button");
-  insaneButton.setAttribute("id", "insane-button");
-  start.appendChild(insaneButton);
-  insaneButton.textContent = "INSANE";
+  //insane button
+  const insaneButton = document.getElementById("insane-button");
   insaneButton.addEventListener("click", () => {
     const start = document.getElementById("start-display");
+    titleIcon.src = "images/insane.png";
+    titleIcon.alt = "insane-title";
     start.style.display = "none";
     difficultyLevel = 59;
+    difficultyLevelText = "That was INSANE!!!";
     let grid = new Grid(aspectRatio, difficultyLevel);
     grid.doFillValues();
     grid.allTiles = document.getElementsByClassName("tile");
@@ -471,3 +646,4 @@ window.onload = () => {
 
 let aspectRatio = 9; //grid dimensions (default 9x9)
 let difficultyLevel = 0; //how many tiles to hide
+let difficultyLevelText = "";

@@ -179,6 +179,12 @@ hr {
   margin: 0;
 }
 
+#difficulty-lvl {
+  color: rgb(248, 239, 197);
+  font-size: 0.7em;
+  margin: 0;
+}
+
 #finish-time {
   color: rgb(248, 239, 197);
   font-size: 0.7em;
@@ -368,7 +374,7 @@ hr {
   border: 2px rgb(18, 46, 40) solid;
   border-radius: 0.3em;
   width: fit-content;
-  min-width: 50%;
+  min-width: 60%;
   background-color: rgb(248, 239, 197);
   font-size: 1em;
   font-weight: bold;
@@ -405,4 +411,51 @@ hr {
 #insane-button:hover {
   background-color: #7f0907;
   color: rgb(248, 239, 197);
+}
+
+#num-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 1.5em;
+  gap: 0.5em;
+}
+
+#num-1,
+#num-2,
+#num-3,
+#num-4,
+#num-5,
+#num-6,
+#num-7,
+#num-8,
+#num-9 {
+  width: fit-content;
+  height: fit-content;
+  min-width: 10%;
+  aspect-ratio: 1/1;
+  border: 2px solid rgb(18, 46, 40);
+  border-radius: 0.3em;
+  margin: 0;
+  text-align: center;
+  background-color: rgb(248, 239, 197);
+  color: rgb(233, 110, 59);
+  font-weight: bold;
+  font-size: 1em;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+#easy-icon,
+#medium-icon,
+#hard-icon,
+#insane-icon {
+  width: 20px;
+  height: 20px;
+}
+
+#title-icon {
+  padding-top: 10px;
+  width: 40px;
 }

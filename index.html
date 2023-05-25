@@ -8,7 +8,7 @@
     <title>Sudoku</title>
   </head>
   <body>
-    <h1>Sudoku</h1>
+    <h1 id="title-main">Sudoku <img src="" alt="" id="title-icon" /></h1>
     <hr />
     <h2 id="err">0</h2>
     <h3 id="timer">00:00</h3>
@@ -18,7 +18,34 @@
     <div id="button-container">
       <button id="show-button">Show Solution</button>
       <button id="restart-button">Restart</button>
-    </div>   
+    </div>
+    <div id="num-container">
+      <button id="num-1">1</button>
+      <button id="num-2">2</button>
+      <button id="num-3">3</button>
+      <button id="num-4">4</button>
+      <button id="num-5">5</button>
+      <button id="num-6">6</button>
+      <button id="num-7">7</button>
+      <button id="num-8">8</button>
+      <button id="num-9">9</button>
+    </div>
+    <div id="start-display">
+      <h2 id="start-title">Start Sudoku</h2>
+      <h3 id="info-text">Select Difficulty</h3>
+      <button id="easy-button">
+        EASY <img src="images/easy.png" alt="easy" id="easy-icon" />
+      </button>
+      <button id="medium-button">
+        MEDIUM <img src="images/medium.png" alt="medium" id="medium-icon" />
+      </button>
+      <button id="hard-button">
+        HARD <img src="images/hard.png" alt="hard" id="hard-icon" />
+      </button>
+      <button id="insane-button">
+        INSANE <img src="images/insane.png" alt="insane" id="insane-icon" />
+      </button>
+    </div>
     <script src="script\index.js"></script>
   </body>
 </html>
